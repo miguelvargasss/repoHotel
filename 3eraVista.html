@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>3. Reservas - Hotel Los Cisnes</title>
+  <link rel="stylesheet" href="estilos.css">
+  <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Roboto+Condensed&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1 class="titulo">Frecuencia de Reservas y Satisfacción</h1>
+
+  <section class="graficos-horizontal">
+    <div class="contenedor-canvas">
+      <h2>Reservas Mensuales</h2>
+      <canvas id="graficoReservas"></canvas>
+
+      <hr style="margin: 30px 0;">
+
+      <h2>Habitaciones Más Reservadas</h2>
+      <canvas id="graficoHabitaciones"></canvas>
+    </div>
+
+    <div class="contenedor-canvas">
+      <h2>Satisfacción por Habitación</h2>
+      <canvas id="graficoSatisfaccion"></canvas>
+    </div>
+  </section>
+
+  <div class="navegacion-vistas">
+    <a href="2daVista.html" class="flecha">&#8592;</a>
+    <a href="#" class="flecha" style="visibility: hidden;">&#8594;</a>
+  </div>
+
+  <script>
+    const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const ventas = [4000, 5500, 4200, 3900, 3800, 4200, 2500, 2900, 4700, 4100, 3800, 3200];
+    const reservasMensuales = ventas.map(v => Math.round(v / 100));
+    const total = reservasMensuales.reduce((a, b) => a + b);
+
+    const habitaciones = ['Individual','Doble std','Doble deluxe','Estudio','S. Junior','S. Ejecutiva'];
+    const reservasPorTipo = [0.30,0.25,0.15,0.10,0.10,0.10].map(p => Math.round(total * p));
+    const satisfaccion = [4, 3, 5, 4, 2, 3];
+
+    new Chart(document.getElementById('graficoReservas'), {
+      type: 'bar',
+      data: {
+        labels: meses,
+        datasets: [{
+          label: 'Reservas por mes',
+          data: reservasMensuales,
+          backgroundColor: '#043034',
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: 'Reservas' } }
+        },
+        plugins: { legend: { position: 'top' } }
+      }
+    });
+
+    new Chart(document.getElementById('graficoHabitaciones'), {
+      type: 'bar',
+      data: {
+        labels: habitaciones,
+        datasets: [{
+          label: 'Reservas por tipo',
+          data: reservasPorTipo,
+          backgroundColor: '#d6956c',
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: 'Reservas' } }
+        },
+        plugins: { legend: { position: 'top' } }
+      }
+    });
+
+    new Chart(document.getElementById('graficoSatisfaccion'), {
+      type: 'radar',
+      data: {
+        labels: habitaciones,
+        datasets: [{
+          label: 'Satisfacción (1-5)',
+          data: satisfaccion,
+          backgroundColor: 'rgba(133,72,72,0.2)',
+          borderColor: '#854848',
+          pointBackgroundColor: '#043034'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          r: {
+            suggestedMin: 1,
+            suggestedMax: 5,
+            ticks: { stepSize: 1, color: '#043034' }
+          }
+        },
+        plugins: { legend: { position: 'top' } }
+      }
+    });
+  </script>
+</body>
+</html>
