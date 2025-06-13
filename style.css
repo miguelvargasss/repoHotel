@@ -1,0 +1,642 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f0f0f0; /* Light background for the overall page */
+    overflow-x: hidden; /* Prevent horizontal scroll when sidebar is open */
+}
+
+/* Sidebar Menu */
+.sidebar {
+    height: 100%;
+    width: 0; /* Initially hidden */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    top: 0;
+    left: 0;
+    background-color: #BDB76B; /* Dark Khaki - matching the popular rooms section */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+    padding-top: 60px; /* Place content a bit below the top */
+    border-right: 5px solid #6A5ACD; /* Slate Blue - matches the border color in the image */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    text-decoration: none;
+    color: #333; /* Darker color for close button */
+}
+
+.sidebar-content {
+    padding: 20px;
+    text-align: left;
+}
+
+.sidebar-link {
+    padding: 15px 8px 15px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #333; /* Darker color for links */
+    display: block;
+    transition: 0.3s;
+    font-weight: bold;
+    text-decoration: underline; /* Underline as per image */
+}
+
+.sidebar-link:hover {
+    color: #f1f1f1;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.sidebar-link.sub-link {
+    font-size: 18px; /* Slightly smaller for sub-links */
+    padding-left: 50px; /* Indent sub-links */
+}
+
+/* Main Content Styling */
+#main {
+    transition: margin-left .5s; /* Transition for main content when sidebar opens/closes */
+    margin-left: 0; /* Initial state */
+}
+
+.main-content-blur {
+    /* Optional: Add a blur effect or overlay when sidebar is open */
+    filter: blur(2px);
+    pointer-events: none; /* Disable interaction with blurred content */
+}
+
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #90EE90; /* Light Green */
+    padding: 10px 20px;
+    color: white;
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: #333; /* Darker color for the icon */
+}
+
+.auth-buttons .btn {
+    background-color: #2F4F4F; /* Dark Slate Gray */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Main Navigation */
+.main-nav {
+    background-color: #90EE90; /* Light Green */
+    padding: 10px 0;
+    text-align: center;
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.main-nav ul li {
+    margin: 0 15px;
+}
+
+.main-nav ul li a {
+    text-decoration: none;
+    color: #333; /* Darker color for navigation links */
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.main-nav ul li a:hover {
+    background-color: #7CFC00; /* Lawn Green - slightly darker green on hover */
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: #2F4F4F; /* Dark Slate Gray */
+    color: white;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.hotel-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.hotel-logo img {
+    height: 50px; /* Adjust as needed */
+    margin: 0 10px;
+}
+
+.hotel-logo h1 {
+    font-size: 3em;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+/* Booking Widget */
+.booking-widget {
+    background-color: #9ACD32; /* Yellow Green */
+    border-radius: 50px; /* Fully rounded capsule shape */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 0 auto;
+    max-width: 800px; /* Adjust width as needed */
+}
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.dropdown-button {
+    background-color: #fff;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 150px;
+}
+
+.dropdown-button i {
+    margin-left: 10px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 8px;
+    top: 100%; /* Position below the button */
+    left: 0;
+    margin-top: 5px; /* Spacing between button and dropdown */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    border-radius: 8px;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown-container.active .dropdown-content {
+    display: block;
+}
+
+.date-picker {
+    position: relative;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 5px 15px;
+}
+
+.date-picker .date-input {
+    border: none;
+    padding: 5px 0;
+    outline: none;
+    font-size: 1em;
+    width: 80px;
+    text-align: center;
+}
+
+.date-picker i {
+    color: #555;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.reserve-btn {
+    background-color: #2F4F4F; /* Dark Slate Gray */
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px; /* More rounded */
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* Popular Rooms Section */
+.popular-rooms {
+    background-color: #BDB76B; /* Dark Khaki */
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.popular-rooms h2 {
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 30px;
+    text-align: left;
+    margin-left: 10%; /* Align with the image gallery */
+}
+
+.room-gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.room-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 280px; /* Fixed width for cards */
+}
+
+.room-card img {
+    width: 100%;
+    height: 180px; /* Fixed height for images */
+    object-fit: cover; /* Ensures images cover the area without distortion */
+    display: block;
+}
+
+/* Responsive adjustments for smaller screens (e.g., mobile) */
+@media screen and (max-width: 768px) {
+    .booking-widget {
+        flex-direction: column;
+        border-radius: 20px;
+        padding: 15px;
+    }
+
+    .dropdown-container, .date-picker, .reserve-btn {
+        margin: 10px 0;
+        width: 90%;
+    }
+
+    .dropdown-button, .date-picker, .reserve-btn {
+        width: 100%;
+        box-sizing: border-box; /* Include padding in width */
+    }
+
+    .room-gallery {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+/* --- Estilos Específicos para la Página de Login --- */
+
+.login-page-body {
+    background-color: #043034; /* Gris pizarra oscuro - fondo de toda la página */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Altura mínima del 100% del viewport */
+    margin: 0;
+    box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el tamaño total */
+    padding: 20px; /* Añadir algo de padding para pantallas más pequeñas */
+}
+
+.login-container {
+    background-color: #817928; /* Caqui oscuro - fondo principal del formulario */
+    border-radius: 20px; /* Bordes redondeados */
+    padding: 40px 30px; /* Relleno interno */
+    width: 100%;
+    max-width: 500px; /* Ancho máximo para el contenedor del formulario */
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative; /* Para el posicionamiento absoluto del cisne */
+    overflow: hidden; /* Asegura que los elementos no se desborden del contenedor redondeado */
+}
+
+.login-title {
+    background-color: #BDC3C7; /* Gris oscuro - color del botón de la primera imagen */
+    color: rgb(0, 0, 0);
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 1.8em;
+    font-weight: bold;
+    display: inline-block; /* Para que el fondo se ajuste al contenido */
+    margin-bottom: 30px;
+}
+
+.login-form .input-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.login-form label {
+    display: block;
+    color: #000000;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+.input-field-wrapper {
+    position: relative;
+    background-color: white;
+    border-radius: 25px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    border: 2px solid transparent; /* Borde predeterminado */
+    transition: border-color 0.3s ease;
+}
+
+.input-field-wrapper:focus-within {
+    border-color: #4682B4; /* Azul acero - borde azul al enfocar */
+}
+
+.input-field-wrapper input {
+    border: none;
+    outline: none;
+    flex-grow: 1; /* Permite que el input ocupe el espacio disponible */
+    font-size: 1em;
+    background: transparent; /* Asegura que el fondo del input sea transparente */
+    color: #333;
+}
+
+.input-field-wrapper input::placeholder {
+    color: #aaa;
+}
+
+.password-group .input-field-wrapper {
+    padding-right: 50px; /* Hacer espacio para el icono del ojo */
+}
+
+.password-toggle {
+    position: absolute;
+    right: 20px;
+    cursor: pointer;
+    color: #555;
+    font-size: 1.1em;
+}
+
+.forgot-password {
+    display: block;
+    text-align: center;
+    color: #333;
+    text-decoration: underline;
+    margin-top: -10px; /* Acercarlo al campo de contraseña */
+    margin-bottom: 30px;
+    font-size: 0.95em;
+}
+
+.btn.login-submit-btn {
+    background-color: #854848; /* Marrón silla - un color marrón rústico */
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 30px;
+}
+
+.btn.login-submit-btn:hover {
+    background-color: #A0522D; /* Siena - un marrón ligeramente más claro al pasar el ratón */
+}
+
+.login-swan-logo {
+    position: absolute;
+    bottom: -20px; /* Ajustar para moverlo más dentro del contenedor */
+    left: -30px; /* Ajustar para moverlo más dentro del contenedor */
+    width: 200px; /* Ajustar tamaño según sea necesario */
+    height: auto;
+    /* Si tienes una imagen PNG con fondo transparente, úsala aquí */
+}
+
+.login-register-section {
+    margin-top: 40px;
+    color: #333;
+}
+
+.login-register-section p {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 2.2em;
+}
+
+.social-login a {
+    color: #000000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-login a:hover {
+    color: #000000;
+}
+
+/* Asegúrate de que tus media queries existentes también cubran estos nuevos elementos */
+@media screen and (max-width: 768px) {
+    .login-container {
+        padding: 30px 20px;
+    }
+    .login-swan-logo {
+        width: 150px;
+        bottom: -10px;
+        left: -15px;
+    }
+    .social-login {
+        font-size: 1.8em;
+    }
+}
+
+/* --- Estilos Específicos para la Página de Registro --- */
+
+.registro-page-body {
+    background-color: #043034; /* Gris pizarra oscuro - fondo de toda la página */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Altura mínima del 100% del viewport */
+    margin: 0;
+    box-sizing: border-box; /* Asegura que el padding y el borde se incluyan en el tamaño total */
+    padding: 20px; /* Añadir algo de padding para pantallas más pequeñas */
+}
+
+.registro-container {
+    background-color: #817928; /* Caqui oscuro - main form background */
+    border-radius: 20px; /* Bordes redondeados */
+    padding: 40px 30px; /* Relleno interno */
+    width: 100%;
+    max-width: 500px; /* Ancho máximo para el contenedor del formulario */
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative; /* Para el posicionamiento absoluto del cisne */
+    overflow: hidden; /* Asegura que los elementos no se desborden del contenedor redondeado */
+}
+
+.registro-title {
+    background-color: #BDC3C7; /* Gris oscuro - color del botón de la primera imagen */
+    color: rgb(0, 0, 0);
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 1.8em;
+    font-weight: bold;
+    display: inline-block; /* Para que el fondo se ajuste al contenido */
+    margin-bottom: 30px;
+}
+
+.registro-form .input-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.registro-form label {
+    display: block;
+    color: #000000;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+/* Reutilizamos el estilo de input-field-wrapper del login */
+.registro-form .input-field-wrapper {
+    position: relative;
+    background-color: white;
+    border-radius: 25px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    border: 2px solid transparent; /* Borde predeterminado */
+    transition: border-color 0.3s ease;
+}
+
+.registro-form .input-field-wrapper:focus-within {
+    border-color: #4682B4; /* Azul acero - borde azul al enfocar */
+}
+
+.registro-form .input-field-wrapper input {
+    border: none;
+    outline: none;
+    flex-grow: 1; /* Permite que el input ocupe el espacio disponible */
+    font-size: 1em;
+    background: transparent; /* Asegura que el fondo del input sea transparente */
+    color: #333;
+}
+
+.registro-form .input-field-wrapper input::placeholder {
+    color: #aaa;
+}
+
+.terms-checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: -10px; /* Acercarlo al campo anterior */
+    margin-bottom: 30px;
+    font-size: 0.95em;
+    color: #000000;
+    text-align: left;
+}
+
+.terms-checkbox input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* Agrandar un poco el checkbox */
+}
+
+.btn.registrar-submit-btn {
+    background-color: #854848; 
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 30px;
+    margin-bottom: 40px; /* Espacio antes de los iconos sociales */
+}
+
+.btn.registrar-submit-btn:hover {
+    background-color: #A0522D; /* Siena - ligeramente más claro al pasar el ratón */
+}
+
+/* Reutilizamos el estilo del cisne del login */
+.registro-swan-logo {
+    position: absolute;
+    bottom: -20px; /* Ajustar a tu gusto */
+    left: -30px; /* Ajustar a tu gusto */
+    width: 200px; /* Ajustar tamaño según sea necesario */
+    height: auto;
+}
+
+/* Reutilizamos el estilo de los iconos sociales del login */
+.social-registro {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 2.2em;
+}
+
+.social-registro a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-registro a:hover {
+    color: #555;
+}
+
+/* Media query para hacer el formulario más responsivo en pantallas pequeñas */
+@media screen and (max-width: 768px) {
+    .registro-container {
+        padding: 30px 20px;
+    }
+    .registro-swan-logo {
+        width: 150px;
+        bottom: -10px;
+        left: -15px;
+    }
+    .social-registro {
+        font-size: 1.8em;
+    }
+    .terms-checkbox label {
+        font-size: 0.85em;
+    }
+}

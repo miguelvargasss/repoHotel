@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Los Cisnes - Inicio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="sidebar" id="mySidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="sidebar-content">
+            <a href="#" class="sidebar-link">Habitación individual</a>
+            <a href="#" class="sidebar-link">Habitación doble standard</a>
+            <a href="#" class="sidebar-link">Habitación doble deluxe</a>
+            <a href="#" class="sidebar-link">Estudio o apartamento</a>
+            <a href="#" class="sidebar-link sub-link">Sout Junior</a>
+            <a href="#" class="sidebar-link sub-link">Sout Ejecutiva</a>
+        </div>
+    </div>
+
+    <div id="main">
+        <header class="top-bar">
+            <div class="menu-icon" onclick="openNav()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn login">Login</a>
+                <a href="registro.html" class="btn register">Registrarse</a>
+            </div>
+        </header>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#">Ofertas</a></li>
+                <li><a href="#">Restaurante</a></li>
+                <li><a href="#">Eventos</a></li>
+                <li><a href="#">Redes Sociales</a></li>
+            </ul>
+        </nav>
+
+        <section class="hero-section">
+            <div class="hotel-logo">
+                <img src="img/Cisne-Hotel.png" alt="Cisnes Left">
+                <h1>HOTEL LOS CISNES</h1>
+                <img src="img/Cisne-Hotel.png" alt="Cisnes Right">
+            </div>
+
+            <div class="booking-widget">
+                <div class="dropdown-container">
+                    <button class="dropdown-button" id="habitaciones-dropdown">
+                        Habitaciones <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="#">Individual</a>
+                        <a href="#">Standard</a>
+                        <a href="#">Deluxe</a>
+                        <a href="#">Est./Apart.</a>
+                        <a href="#">Sout Junior</a>
+                        <a href="#">Sout Ejecutiva</a>
+                    </div>
+                </div>
+
+                <div class="date-picker">
+                    <input type="text" placeholder="Mes" class="date-input" onclick="openDatePicker('month')">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="date-picker">
+                    <input type="text" placeholder="Día" class="date-input" onclick="openDatePicker('day')">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <button class="btn reserve-btn">RESERVAR</button>
+            </div>
+        </section>
+
+        <section class="popular-rooms">
+            <h2>Habitaciones populares:</h2>
+            <div class="room-gallery">
+                <div class="room-card">
+                    <img src="img/Habi-Popular1.png" alt="Habitación 1">
+                </div>
+                <div class="room-card">
+                    <img src="img/Habi-Popular2.png" alt="Habitación 2">
+                </div>
+                <div class="room-card">
+                    <img src="img/Habi-Popular3.png" alt="Habitación 3">
+                </div>
+                <div class="room-card">
+                    <img src="img/Habi-Popular4.png" alt="Habitación 4">
+                </div>
+            </div>
+        </section>
+    </div> <script src="app.js"></script>
+</body>
+</html>
