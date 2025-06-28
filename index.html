@@ -3,98 +3,1101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Los Cisnes - Inicio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Hotel Los Cisnes - SPA</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Katibeh&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <style>
+        body {
+            font-family: "Katibeh", cursive;
+            background-color: #f0f0f0; 
+            overflow-x: hidden;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #94B686;
+            padding: 8px 15px; 
+            color: white;
+        }
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+        .hero-section {
+            background-color: #043034;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .hotel-logo img {
+            height: 80px;
+            margin: 0 10px;
+        }
+        .hotel-logo h1 {
+            font-size: 3em;
+        }
+        .booking-widget {
+            background-color: #9ACD32;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            flex-wrap: wrap;
+        }
+        .popular-rooms {
+            background-color: #C2B966;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+
+        /* Estilos para modales */
+        .modal-registro-body {
+            background-color: #817928;
+            color: #000;
+        }
+        .modal-registro-body .form-label {
+            font-weight: bold;
+        }
+        .modal-registro-body .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .modal-title-custom {
+            background-color: #BDC3C7;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        /* --- ESTILOS PARA EL NUEVO CARRUSEL DE HABITACIONES --- */
+
+        .popular-rooms {
+            background-color: #BDB76B;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .room-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #f5f0dc; /* Color de fondo de la tarjeta */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .room-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .room-image-container {
+            position: relative;
+        }
+
+        .room-type-overlay {
+            position: absolute;
+            top: 15px;
+            right: -10px;
+            background-color: #9ACD32;
+            color: #043034;
+            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 20px 0 0 20px;
+            font-size: 1.1em;
+            box-shadow: -2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .room-card .card-body {
+            padding: 1.25rem;
+            text-align: left;
+            color: #333;
+        }
+
+        .room-card .card-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #B22222; /* Color rojo oscuro para el título */
+        }
+
+        .card-title-icon {
+            color: #008B8B; /* Color para los iconos de gema y etiqueta */
+        }
+
+        .rating {
+            font-size: 0.9em;
+            color: #666;
+        }
+        .rating .fa-star {
+            color: #FFD700; /* Color de la estrella */
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+            font-size: 0.95em;
+        }
+        .features-list li {
+            margin-bottom: 5px;
+        }
+        .features-list li::before {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            content: "\f00c"; /* Código del ícono de check */
+            color: #228B22; /* Color verde del check */
+            margin-right: 10px;
+        }
+
+        .validity-date {
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .price-section .original-price {
+            color: #dc3545;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        .price-section .current-price {
+            color: #043034;
+            font-size: 1.6em;
+            font-weight: bold;
+        }
+
+        /* Estilos para los controles del carrusel */
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #043034;
+            border-radius: 50%;
+            padding: 20px;
+            background-size: 50% 50%;
+        }
+        /* --- ESTILOS PARA LAS FLECHAS PERSONALIZADAS DEL CARRUSEL --- */
+        .popular-rooms .carousel-control-prev,
+        .popular-rooms .carousel-control-next {
+            width: 50px;
+            height: 50px;
+            background-color: #CD853F; /* Color marrón-naranja */
+            border: 3px solid #8B4513;   /* Borde marrón oscuro */
+            border-radius: 50%;          /* Esto los hace circulares */
+            opacity: 1;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #000;                 /* Color del símbolo "<" y ">" */
+            font-size: 2rem;             /* Tamaño del símbolo */
+            font-weight: bold;
+            line-height: 40px;           /* Alinea verticalmente el símbolo */
+            text-shadow: none;
+        }
+
+        .popular-rooms .carousel-control-prev {
+            left: -25px; /* Mueve la flecha izquierda hacia afuera */
+        }
+
+        .popular-rooms .carousel-control-next {
+            right: -25px; /* Mueve la flecha derecha hacia afuera */
+        }
+
+        .popular-rooms .carousel-control-prev:hover,
+        .popular-rooms .carousel-control-next:hover {
+            background-color: #A0522D; /* Color un poco más oscuro al pasar el mouse */
+            color: #fff;
+        }
+        /* --- ESTILOS PARA EL CARRUSEL DE SCROLLING (LÍNEA ÚNICA) --- */
+
+        .carousel-inner-scroll {
+            overflow: hidden; 
+        }
+
+        .scrolling-wrapper {
+            display: flex; 
+            flex-wrap: nowrap; 
+            align-items: stretch; 
+            transition: transform 0.5s ease-in-out; 
+        }
+
+        .room-card-wrapper {
+            width: 320px;       
+            flex-shrink: 0;     
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        /* --- ESTILOS PARA EL NUEVO MODAL DE LOGIN --- */
+        .modal-login-body {
+            background-color: #817928;
+            color: #fff;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .modal-login-body .modal-title-custom {
+            background-color: #BDC3C7;
+            color: black;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .modal-login-body .form-label {
+            font-weight: normal;
+            font-size: 1.1rem;
+            color: #f0f0f0;
+        }
+
+        .modal-login-body .form-control {
+            border-radius: 50px;
+            padding: 10px 20px;
+            height: 50px;
+            border: none;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .modal-login-body .form-control::placeholder {
+            color: #999;
+        }
+
+        /* Estilo para el ícono del ojo en la contraseña */
+        #togglePassword {
+            position: absolute;
+            top: 68%; /* Ajusta la posición vertical del icono */
+            right: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #333;
+        }
+
+        .modal-login-body .btn-submit {
+            background-color: #854848;
+            border-radius: 50px;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+        }
+
+        .modal-login-body .btn-submit:hover {
+            background-color: #6a3a3a;
+            color: #fff;
+        }
+
+        .forgot-password-link {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password-link:hover {
+            text-decoration: underline;
+            color: #fff;
+        }
+
+        /* Estilos para el divisor "O inicia sesión con" */
+        .social-login-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #f0f0f0;
+        }
+        .social-login-divider::before,
+        .social-login-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .social-login-divider:not(:empty)::before {
+            margin-right: .5em;
+        }
+        .social-login-divider:not(:empty)::after {
+            margin-left: .5em;
+        }
+
+        /* Estilos para los iconos de redes sociales */
+        .social-login-icons .social-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 45px;
+            height: 45px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .social-login-icons .social-icon:hover {
+            background-color: #fff;
+            color: #817928;
+        }
+
+        /* --- ESTILOS PARA EL NUEVO DISEÑO DEL MODAL DE REGISTRO (Según Imagen) --- */
+
+        /* Contenedor principal del modal */
+        .modal-content-custom-design {
+            background-color: #817928; 
+            border-radius: 20px;
+            padding: 2rem;
+            border: 5px solid #6c9bcf; 
+            position: relative;
+        }
+
+        /* Título "Registrarse" */
+        .modal-title-custom-design {
+            background-color: #bdc3c7; 
+            color: black;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.8rem; 
+            text-align: center;
+            border: 3px solid #6c757d; 
+            margin-bottom: 20px;
+        }
+
+        /* Estilo para las etiquetas (Nombre:, Apellido:, etc.) */
+        .form-custom-design .form-label {
+            color: #3D360A; 
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Estilo para los campos de texto (input) */
+        .form-custom-design .form-control {
+            border-radius: 50px; 
+            padding: 10px 20px;
+            height: 50px;
+            border: none;
+            background-color: #fff;
+            color: #333;
+        }
+
+        /* Posición del icono del ojo para la contraseña */
+        #toggleRegistroPassword {
+            position: absolute;
+            top: 50%; 
+            right: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Estilo para el checkbox y su etiqueta */
+        .form-custom-design .form-check-label {
+            color: #333; /* Color oscuro para la etiqueta */
+        }
+
+        .form-custom-design .form-check-input {
+            border: 2px solid #3D360A; 
+        }
+
+        .form-custom-design .form-check-input:checked {
+            background-color: #3D360A; /* Fondo oscuro al marcarlo */
+            border-color: #3D360A;
+        }
+
+        /* Botón "Registrarse" */
+        .btn-registro-custom {
+            background-color: #914040; /* Color guinda/marrón */
+            color: white;
+            border-radius: 50px;
+            padding: 12px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-registro-custom:hover:not(:disabled) {
+            background-color: #6a3a3a; 
+            color: white;
+        }
+
+        .btn-registro-custom:disabled {
+            background-color: #854848;
+            opacity: 0.5;
+        }
+
+
+        /* Estilos para los iconos simples de redes sociales */
+        .social-login-simple {
+            text-align: center;
+        }
+        .social-icon-simple {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 45px;
+            height: 45px;
+            border: 2px solid #3D360A;
+            border-radius: 5px; /* Ligeramente redondeado como en la imagen */
+            color: #3D360A; /* Iconos oscuros */
+            font-size: 1.5rem;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .social-icon-simple:hover {
+            background-color: #3D360A;
+            color: #fff;
+        }
+        /* --- ESTILOS PARA CORREGIR ICONO EN MODAL DE REGISTRO ÚNICAMENTE --- */
+
+        /* Contenedor específico que solo existe en el modal de registro */
+        .registro-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Le damos espacio al input de registro para que el icono no tape el texto */
+        .registro-input-wrapper .form-control {
+            padding-right: 45px; /* Espacio a la derecha para el icono */
+        }
+
+        #toggleRegistroPassword {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* --- ESTILO PARA POSICIONAR LA 'X' DEL MODAL DE REGISTRO --- */
+
+        .modal-content-custom-design .btn-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+        }
+
+        /* --- ESTILOS PARA MEJORAR LOS BOTONES DE AUTENTICACIÓN --- */
+
+        /* Estilo base para ambos botones */
+        .auth-buttons .btn {
+            border-radius: 50px; 
+            padding: 8px 25px;   
+            font-weight: bold;
+            border: 2px solid transparent; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidad */
+        }
+
+        /* Efecto al pasar el mouse sobre CUALQUIER botón */
+        .auth-buttons .btn:hover {
+            transform: translateY(-3px); /* Levanta ligeramente el botón */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+        }
+
+        /* Estilos específicos y efecto hover para el botón "Iniciar Sesión" */
+        #loginBtn {
+            background-color: #343a40; /* Color oscuro original */
+            color: white;
+        }
+
+        #loginBtn:hover {
+            background-color: #23272b; /* Un poco más oscuro al pasar el mouse */
+            border-color: #ffffff;    /* Borde blanco que aparece al pasar el mouse */
+        }
+
+        /* Estilos específicos y efecto hover para el botón "Registrarse" */
+        #registerBtn {
+            background-color: #6c757d; /* Color secundario original */
+            color: white;
+        }
+
+        #registerBtn:hover {
+            background-color: #5a6268; /* Un poco más oscuro al pasar el mouse */
+            border-color: #f0f0f0;    /* Borde gris claro que aparece al pasar el mouse */
+        }
+        
+        /* La capa de fondo que oscurece la página */
+        .sidebar-overlay-custom {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1040; 
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        .sidebar-overlay-custom.visible {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease;
+        }
+
+        /* La barra lateral principal */
+        .mobile-sidebar-custom {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 300px; /* Ancho de la barra lateral */
+            background-color: #C2B966; /* Color de fondo que me indicaste */
+            z-index: 1050; /* Por encima de la capa de fondo */
+            padding: 25px;
+            color: #043034;
+            transform: translateX(-100%); 
+            transition: transform 0.3s ease-in-out;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .mobile-sidebar-custom.visible {
+            transform: translateX(0); /* Muestra la barra al añadir la clase 'visible' */
+        }
+
+        .mobile-sidebar-custom .sidebar-header-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #043034;
+        }
+
+        /* Estilo de los enlaces del menú lateral (como en dashboard.html) */
+        .mobile-sidebar-custom .nav-link-custom {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            padding: 12px 20px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            background-color: #043034;
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .mobile-sidebar-custom .nav-link-custom:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            background-color: #94B686;
+            color: #043034;
+        }
+
+        .mobile-sidebar-custom .nav-link-custom i {
+            font-size: 1.3rem;
+        }
+        /* --- ESTILOS PARA MEJORAR EL MENÚ DE NAVEGACIÓN --- */
+
+        /* Aumenta el tamaño de la letra de los enlaces del menú */
+        .main-nav .list-inline-item a {
+            font-size: 1.5em; 
+            transition: color 0.3s ease; 
+        }
+
+        /* Cambia el color del enlace cuando el mouse está sobre él */
+        .main-nav .list-inline-item a:hover {
+            color: #9AD681 !important; 
+        }
+
+    </style>
 </head>
 <body>
 
-    <div class="sidebar" id="mySidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <div class="sidebar-content">
-            <a href="#" class="sidebar-link">Habitación individual</a>
-            <a href="#" class="sidebar-link">Habitación doble standard</a>
-            <a href="#" class="sidebar-link">Habitación doble deluxe</a>
-            <a href="#" class="sidebar-link">Estudio o apartamento</a>
-            <a href="#" class="sidebar-link">Sout Junior</a>
-            <a href="#" class="sidebar-link">Sout Ejecutiva</a>
-            <a href="1erVista.html" class="sidebar-link sub-link">Dashboards</a>
+    <div id="sidebar-overlay" class="sidebar-overlay-custom"></div>
+
+    <nav id="mobile-sidebar" class="mobile-sidebar-custom">
+        <div class="sidebar-header-custom">
+            <span style="font-family: 'Katibeh', cursive; font-size: 2em; color: #043034;">Menú</span>
+            <button id="close-sidebar-btn" type="button" class="btn-close" aria-label="Close"></button>
         </div>
-    </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link-custom" href="dashboard.html">
+                    <i class="fas fa-tachometer-alt me-3"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link-custom" href="#">
+                     <i class="fas fa-tags me-3"></i>
+                    Ofertas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link-custom" href="#">
+                     <i class="fas fa-utensils me-3"></i>
+                    Restaurante
+                </a>
+            </li>
+        </ul>
+    </nav>
+
 
     <div id="main">
         <header class="top-bar">
-            <div class="menu-icon" onclick="openNav()">
+            <div class="menu-icon">
                 <i class="fas fa-bars"></i>
             </div>
             <div class="auth-buttons">
-                <a href="login.html" class="btn login">Login</a>
-                <a href="registro.html" class="btn register">Registrarse</a>
+                <button type="button" class="btn btn-dark" id="loginBtn">Iniciar Sesión</button>
+                <button type="button" class="btn btn-secondary" id="registerBtn">Registrarse</button>
             </div>
         </header>
 
-        <nav class="main-nav">
-            <ul>
-                <li><a href="#">Ofertas</a></li>
-                <li><a href="#">Restaurante</a></li>
-                <li><a href="#">Eventos</a></li>
-                <li><a href="#">Redes Sociales</a></li>
+        <nav class="main-nav d-none d-md-block" style="background-color: #94B686; padding: 10px 0; text-align: center;">
+            <ul class="list-inline mb-0">
+                <li class="list-inline-item mx-3"><a href="#" class="text-dark fw-bold text-decoration-none">Ofertas</a></li>
+                <li class="list-inline-item mx-3"><a href="#" class="text-dark fw-bold text-decoration-none">Restaurante</a></li>
+                <li class="list-inline-item mx-3"><a href="#" class="text-dark fw-bold text-decoration-none">Eventos</a></li>
+                <li class="list-inline-item mx-3"><a href="#" class="text-dark fw-bold text-decoration-none">Redes Sociales</a></li>
             </ul>
         </nav>
 
         <section class="hero-section">
-            <div class="hotel-logo">
-                <img src="img/Cisne-Hotel.png" alt="Cisnes Left">
-                <h1>HOTEL LOS CISNES</h1>
-                <img src="img/Cisne-Hotel.png" alt="Cisnes Right">
+            <div class="hotel-logo d-flex justify-content-center align-items-center">
+                <img src="img/Cisne-Hotel.png" alt="Cisnes left" style="height: 120px;">
+                <h1 class="mx-3">HOTEL LOS CISNES</h1>
+                <img src="img/Cisne-Hotel.png" alt="Cisnes Right" style="height: 120px;">
             </div>
 
+            
             <div class="booking-widget">
-                <div class="dropdown-container">
-                    <button class="dropdown-button" id="habitaciones-dropdown">
-                        Habitaciones <i class="fas fa-chevron-down"></i>
+                <div class="dropdown m-2">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="habitaciones-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Habitaciones
                     </button>
-                    <div class="dropdown-content">
-                        <a href="#">Individual</a>
-                        <a href="#">Standard</a>
-                        <a href="#">Deluxe</a>
-                        <a href="#">Est./Apart.</a>
-                        <a href="#">Sout Junior</a>
-                        <a href="#">Sout Ejecutiva</a>
+                    <ul class="dropdown-menu" aria-labelledby="habitaciones-dropdown">
+                        <li><a class="dropdown-item" href="#" data-value="Individual">Individual</a></li>
+                        <li><a class="dropdown-item" href="#" data-value="Standard">Standard</a></li>
+                        <li><a class="dropdown-item" href="#" data-value="Deluxe">Deluxe</a></li>
+                        <li><a class="dropdown-item" href="#" data-value="Doble">Doble</a></li>
+                        <li><a class="dropdown-item" href="#" data-value="Triple">Triple</a></li>
+                        <li><a class="dropdown-item" href="#" data-value="Suite">Suite</a></li>
+                        <li><a class="dropdown-item" href="#" data-value="Familiar">Familiar</a></li>
+                        <li><a class="dropdown-item" href="#" data-value="Matrimonial">Matrimonial</a></li>
+                    </ul>
+                </div>
+
+                <div class="date-picker m-2">
+                    <input type="text" placeholder="Fecha Llegada" class="form-control" id="fecha-llegada">
+                </div>
+                <div class="date-picker m-2">
+                     <input type="text" placeholder="Fecha Salida" class="form-control" id="fecha-salida">
+                </div>
+                <button class="btn btn-dark m-2" id="reservarBtn">RESERVAR</button>
+            </div>
+        </section>
+
+ 
+        <section class="popular-rooms">
+            <h2 class="mb-4">Los mejores precios y Ofertas de habitaciones:</h2>
+
+            <div id="scrolling-carousel" class="position-relative">
+                <div class="carousel-inner-scroll">
+
+                    <div class="scrolling-wrapper">
+                        <div class="room-card-wrapper">
+                            <div class="card room-card h-100">
+                                <div class="room-image-container">
+                                    <div class="room-image-container">
+                                        <img src="img/Habi-Popular2.png" class="card-img-top" alt="Habitación Doble">
+                                        <span class="room-type-overlay">Habitación Doble</span>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fa-solid fa-tags card-title-icon"></i> Desc. para Socios <i class="fa-solid fa-gem card-title-icon"></i>
+                                        </h5>
+                                        <span class="rating">4.8 <i class="fa-solid fa-star"></i> (128)</span>
+                                    </div>
+                                    <hr>
+                                    <ul class="features-list">
+                                        <li>Pago anticipado.</li>
+                                        <li>Desayuno incluido.</li>
+                                        <li>Cancelación Gratuita.</li>
+                                    </ul>
+                                    <p class="validity-date mt-auto">Valido hasta el 30 Agosto.</p>
+                                    <div class="price-section text-end">
+                                        <del class="original-price">$180.00</del>
+                                        <span class="current-price">$120.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="room-card-wrapper">
+                            <div class="card room-card h-100">
+                                <div class="room-image-container">
+                                    <img src="img/Habi-Popular3.png" class="card-img-top" alt="Habitación Deluxe">
+                                    <span class="room-type-overlay">Habitación Deluxe</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fa-solid fa-tags card-title-icon"></i> Desc. para Socios <i class="fa-solid fa-gem card-title-icon"></i>
+                                    </h5>
+                                    <span class="rating">4.1 <i class="fa-solid fa-star"></i> (320)</span>
+                                    <hr>
+                                    <ul class="features-list">
+                                        <li>No necesita Pago anticipado.</li>
+                                        <li>Desayuno incluido.</li>
+                                        <li>Cancelación Gratuita.</li>
+                                    </ul>
+                                    <p class="validity-date mt-auto">Valido hasta el 10 Julio.</p>
+                                    <div class="price-section text-end">
+                                        <del class="original-price">$220.00</del>
+                                        <span class="current-price">$190.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="room-card-wrapper">
+                            <div class="card room-card h-100">
+                                <div class="room-image-container">
+                                    <img src="img/Habi-Popular1.png" class="card-img-top" alt="Habitación Doble">
+                                    <span class="room-type-overlay">Habitación Standard</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fa-solid fa-tags card-title-icon"></i> Desc. para Socios <i class="fa-solid fa-gem card-title-icon"></i>
+                                        </h5>
+                                        <span class="rating">4.8 <i class="fa-solid fa-star"></i> (278)</span>
+                                    </div>
+                                    <hr>
+                                    <ul class="features-list">
+                                        <li>Pago anticipado</li>
+                                        <li>Desayuno incluido</li>
+                                        <li>Cancelación Gratuita</li>
+                                    </ul>
+                                    <p class="validity-date mt-auto">Valido hasta el 30 Agosto.</p>
+                                    <div class="price-section text-end">
+                                        <del class="original-price">$150.00</del>
+                                        <span class="current-price">$90.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="room-card-wrapper">
+                            <div class="card room-card h-100">
+                                <div class="room-image-container">
+                                    <img src="img/triple.png" class="card-img-top" alt="Habitación Doble">
+                                    <span class="room-type-overlay">Habitación Triple</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fa-solid fa-tags card-title-icon"></i> Desc. para Todos <i class="fa-solid fa-gem card-title-icon"></i>
+                                        </h5>
+                                        <span class="rating">4.8 <i class="fa-solid fa-star"></i> (98)</span>
+                                    </div>
+                                    <hr>
+                                    <ul class="features-list">
+                                        <li>Pago anticipado</li>
+                                        <li>Desayuno incluido</li>
+                                        <li>Sin cancelaciones</li>
+                                    </ul>
+                                    <p class="validity-date mt-auto">Valido hasta el 30 Agosto.</p>
+                                    <div class="price-section text-end">
+                                        <del class="original-price">$300.00</del>
+                                        <span class="current-price">$259.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="room-card-wrapper">
+                            <div class="card room-card h-100">
+                                <div class="room-image-container">
+                                    <img src="img/terrazaHotel.png" class="card-img-top" alt="Habitación Doble">
+                                    <span class="room-type-overlay">Habitación con Terraza</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fa-solid fa-tags card-title-icon"></i> Desc. para Socios <i class="fa-solid fa-gem card-title-icon"></i>
+                                        </h5>
+                                        <span class="rating">4.8 <i class="fa-solid fa-star"></i> (265)</span>
+                                    </div>
+                                    <hr>
+                                    <ul class="features-list">
+                                        <li>Pago anticipado</li>
+                                        <li>Desayuno incluido</li>
+                                        <li>Cancelación Gratuita</li>
+                                    </ul>
+                                    <p class="validity-date mt-auto">Valido hasta el 30 Agosto.</p>
+                                    <div class="price-section text-end">
+                                        <del class="original-price">$270.00</del>
+                                        <span class="current-price">$200.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="room-card-wrapper">
+                            <div class="card room-card h-100">
+                                <div class="room-image-container">
+                                    <img src="img/piscinaHotel.png" class="card-img-top" alt="Habitación Doble">
+                                    <span class="room-type-overlay">Habitación Premium</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fa-solid fa-tags card-title-icon"></i> Desc. para Socios <i class="fa-solid fa-gem card-title-icon"></i>
+                                        </h5>
+                                        <span class="rating">4.8 <i class="fa-solid fa-star"></i> (601)</span>
+                                    </div>
+                                    <hr>
+                                    <ul class="features-list">
+                                        <li>Pago anticipado</li>
+                                        <li>Desayuno incluido</li>
+                                        <li>Cancelación Gratuita</li>
+                                    </ul>
+                                    <p class="validity-date mt-auto">Valido hasta el 17 Agosto.</p>
+                                    <div class="price-section text-end">
+                                        <del class="original-price">$240.00</del>
+                                        <span class="current-price">$199.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="room-card-wrapper">
+                            <div class="card room-card h-100">
+                                <div class="room-image-container">
+                                    <img src="img/matrimonial.jpg" class="card-img-top" alt="Habitación Doble">
+                                    <span class="room-type-overlay">Habitación Matrimonial</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">
+                                            <i class="fa-solid fa-tags card-title-icon"></i> Desc. para Todos <i class="fa-solid fa-gem card-title-icon"></i>
+                                        </h5>
+                                        <span class="rating">4.8 <i class="fa-solid fa-star"></i> (128)</span>
+                                    </div>
+                                    <hr>
+                                    <ul class="features-list">
+                                        <li>Pago anticipado</li>
+                                        <li>Desayuno incluido</li>
+                                        <li>Sin cancelaciones</li>
+                                    </ul>
+                                    <p class="validity-date mt-auto">Valido hasta el 30 Agosto.</p>
+                                    <div class="price-section text-end">
+                                        <del class="original-price">$220.00</del>
+                                        <span class="current-price">$160.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                </div>
+                <button class="carousel-control-prev" type="button" id="scroll-prev">
+                    <span aria-hidden="true">&lt;</span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" id="scroll-next">
+                    <span aria-hidden="true">&gt;</span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal fade" id="reservaModal" tabindex="-1" aria-labelledby="reservaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #043034; color: white;">
+                    <h5 class="modal-title" id="reservaModalLabel">Ingresar Datos de Reserva</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background-color: #043034;">
+                    <div class="container-fluid">
+                        <div class="row g-4">
+                            <section class="col-lg-5">
+                                <div class="p-3 rounded-3 h-100" style="background-color: #817928;">
+                                    <h2 class="h3 text-center text-dark mb-3">Datos Reserva</h2>
+                                    <div class="mb-3 row">
+                                        <label for="adults" class="col-sm-5 col-form-label text-end">Nº Adultos:</label>
+                                        <div class="col-sm-7"><input type="number" class="form-control" id="adults" value="1" min="1"></div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label for="children" class="col-sm-5 col-form-label text-end">Nº Niños:</label>
+                                        <div class="col-sm-7"><input type="number" class="form-control" id="children" value="0" min="0"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between p-2 mb-2 bg-light text-dark rounded-pill"><span>Días Estadía:</span><span id="dias-estadia-display" class="fw-bold"></span></div>
+                                    <div class="d-flex justify-content-between p-2 mb-2 bg-light text-dark rounded-pill"><span>Fecha Llegada:</span><span id="fecha-llegada-display" class="fw-bold"></span></div>
+                                    <div class="d-flex justify-content-between p-2 mb-3 bg-light text-dark rounded-pill"><span>Fecha Salida:</span><span id="fecha-salida-display" class="fw-bold"></span></div>
+                                    <input type="text" class="form-control mb-2" placeholder="Nombres">
+                                    <input type="text" class="form-control mb-2" placeholder="Apellidos">
+                                    <input type="text" class="form-control mb-2" placeholder="DNI">
+                                    <input type="tel" class="form-control mb-2" placeholder="Teléfono">
+                                    <input type="text" class="form-control mb-3" placeholder="País">
+                                    <div class="d-grid"><button class="btn" style="background-color: #854848; color: white;">Confirmar Reserva</button></div>
+                                </div>
+                            </section>
+                            <section class="col-lg-7">
+                                <div class="p-3 rounded-3 h-100 d-flex flex-column text-white" style="background-color: #2c3e50;">
+                                    <h2 id="reserva-tipo-habitacion" class="h3 text-center mb-3"></h2>
+                                    <img id="reserva-imagen-habitacion" src="img/Habi-Popular1.png" alt="Habitación" class="img-fluid rounded-3 shadow mb-3">
+                                    <div class="mt-auto">
+                                        <div class="p-3 rounded-3 d-flex justify-content-between align-items-center" style="background-color: #34495e;">
+                                            <div>
+                                                <span class="h5">Total a Pagar:</span>
+                                                <span class="h5 fw-bold" style="color: #f39c12;">$150.00</span>
+                                            </div>
+
+                                            <div class="dropdown">
+                                                <button class="btn btn-light dropdown-toggle" type="button" id="metodo-pago-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    M. Pago: Efectivo
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="metodo-pago-dropdown">
+                                                    <li><a class="dropdown-item" href="#" data-value="Efectivo">Efectivo</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-value="Transferencia">Transferencia</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-value="Tarjeta D.">Tarjeta D.</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-value="Yape/Plin">Yape/Plin</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-value="Tarjeta C.">Tarjeta C.</a></li>
+                                                </ul>
+                                            </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
                     </div>
                 </div>
-
-                <div class="date-picker">
-                    <input type="text" placeholder="Mes" class="date-input" 
-                    onclick="openDatePicker('month')">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <div class="date-picker">
-                    <input type="text" placeholder="Día" class="date-input" 
-                    onclick="openDatePicker('day')">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <button class="btn reserve-btn">RESERVAR</button>
             </div>
-        </section>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                 <div class="modal-body text-center modal-login-body">
+                    <button type="button" class="btn-close btn-close-white float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title d-inline-block mt-3 modal-title-custom" id="loginModalLabel">Iniciar Sesión</h5>
 
-        <section class="popular-rooms">
-            <h2>Habitaciones populares:</h2>
-            <div class="room-gallery">
-                <div class="room-card">
-                    <img src="img/Habi-Popular1.png" alt="Habitación 1">
-                </div>
-                <div class="room-card">
-                    <img src="img/Habi-Popular2.png" alt="Habitación 2">
-                </div>
-                <div class="room-card">
-                    <img src="img/Habi-Popular3.png" alt="Habitación 3">
-                </div>
-                <div class="room-card">
-                    <img src="img/Habi-Popular4.png" alt="Habitación 4">
-                </div>
+                    <form class="text-start mt-4">
+                        <div class="mb-3">
+                            <label for="login-username" class="form-label">Usuario:</label>
+                            <input type="text" class="form-control" id="login-username" placeholder="Ingresar Usuario">
+                        </div>
+                        
+                        <div class="mb-3 position-relative">
+                            <label for="login-password" class="form-label">Contraseña:</label>
+                            <input type="password" class="form-control" id="login-password" placeholder="Ingresar Contraseña">
+                            <i class="fas fa-eye-slash" id="togglePassword"></i>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-submit text-white">Iniciar Sesión</button>
+                        </div>
+
+                        <div class="social-login-divider my-4">
+                            <span>O inicia sesión con</span>
+                        </div>
+
+                        <div class="social-login-icons text-center">
+                            <a href="#" class="social-icon"><i class="fab fa-google"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a href="#" class="text-dark">¿Olvidaste la contraseña?</a>
+                        </div>
+                    </form>
+                 </div>
             </div>
-        </section>
-    </div> <script src="app.js"></script>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-custom-design">
+                <button type="button" class="btn-close btn-close-white float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title-custom-design" id="registroModalLabel">Registrarse</h5>
+
+                <form class="form-custom-design" id="registroForm" novalidate>
+                
+                    <div class="mb-3">
+                        <label for="registro-nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="registro-nombre" placeholder="Ingresar Nombre(s)" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="registro-apellido" class="form-label">Apellido:</label>
+                        <input type="text" class="form-control" id="registro-apellido" placeholder="Ingresar Apellidos" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="registro-dni" class="form-label">DNI:</label>
+                        <input type="text" class="form-control" id="registro-dni" placeholder="Ingresar DNI" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="registro-email" class="form-label">Correo:</label>
+                        <input type="email" class="form-control" id="registro-email" placeholder="Ingresar Correo" required>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <label for="registro-password" class="form-label">Contraseña:</label>
+                        <div class="input-icon-wrapper">
+                            <input type="password" class="form-control" id="registro-password" placeholder="Ingresar Contraseña" required>
+                            <i class="fas fa-eye-slash" id="toggleRegistroPassword"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" value="" id="registro-terminos" required>
+                        <label class="form-check-label" for="registro-terminos">
+                            Estoy de acuerdo con los términos y condiciones de Hotel los Cisnes.
+                        </label>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" id="registroSubmitBtn" class="btn btn-registro-custom" disabled>Registrarse</button>
+                    </div>
+
+                    <div class="social-login-simple mt-4">
+                        <a href="#" class="social-icon-simple"><i class="fab fa-google"></i></a>
+                        <a href="#" class="social-icon-simple"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+    <script src="app.js"></script>
+
 </body>
 </html>
