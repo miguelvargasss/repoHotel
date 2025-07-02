@@ -187,30 +187,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ---- LÓGICA PARA EL MENÚ LATERAL DE INDEX.HTML (AÑADIDO) ----
-    const menuIcon = document.querySelector('.top-bar .menu-icon');
-    const mobileSidebar = document.getElementById('mobile-sidebar'); // Usa el ID general
-    const sidebarOverlay = document.getElementById('sidebar-overlay'); // Usa el ID general
-    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+            // ---- LÓGICA UNIFICADA PARA AMBOS MENÚS LATERALES ----
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const closeSidebarBtn = document.getElementById('close-sidebar-btn');
 
-    // Comprueba que los elementos del menú de la página de inicio existan
-    if (menuIcon && mobileSidebar && sidebarOverlay && closeSidebarBtn && mobileSidebar.classList.contains('mobile-sidebar-custom')) {
-        
-        const openSidebar = () => {
-            mobileSidebar.classList.add('visible');
-            sidebarOverlay.classList.add('visible');
-        };
+        // Selecciona el ícono del menú que exista en la página actual
+        const menuIconIndex = document.querySelector('.top-bar .menu-icon'); // Para index.html
+        const menuIconDashboard = document.getElementById('menu-icon-dashboard'); // Para dashboard.html
 
-        const closeSidebar = () => {
-            mobileSidebar.classList.remove('visible');
-            sidebarOverlay.classList.remove('visible');
-        };
+        if (mobileSidebar && sidebarOverlay && closeSidebarBtn) {
+            const openSidebar = () => {
+                mobileSidebar.classList.add('visible');
+                sidebarOverlay.classList.add('visible');
+            };
 
-        menuIcon.addEventListener('click', openSidebar);
-        closeSidebarBtn.addEventListener('click', closeSidebar);
-        sidebarOverlay.addEventListener('click', closeSidebar);
-    }
+            const closeSidebar = () => {
+                mobileSidebar.classList.remove('visible');
+                sidebarOverlay.classList.remove('visible');
+            };
 
+            // Asigna el evento al ícono del menú que se encuentre en la página
+            if (menuIconIndex) {
+                menuIconIndex.addEventListener('click', openSidebar);
+            }
+            if (menuIconDashboard) {
+                menuIconDashboard.addEventListener('click', openSidebar);
+            }
+            
+            // Asigna los eventos para cerrar el menú (estos son comunes en ambas páginas)
+            closeSidebarBtn.addEventListener('click', closeSidebar);
+            sidebarOverlay.addEventListener('click', closeSidebar);
+        }
 
     // --- LÓGICA PARA CONFIRMAR RESERVA Y VALIDAR DATOS ---
     const confirmarReservaBtn = document.getElementById('confirmar-reserva-btn');
