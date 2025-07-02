@@ -932,9 +932,11 @@
         </section>
     </div>
 
+
+
     <div class="modal fade" id="reservaModal" tabindex="-1" aria-labelledby="reservaModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color: #586F7C;">
                 <div class="modal-header" style="background-color: #043034; color: white;">
                     <h5 class="modal-title" id="reservaModalLabel">Ingresar Datos de Reserva</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -956,12 +958,15 @@
                                     <div class="d-flex justify-content-between p-2 mb-2 bg-light text-dark rounded-pill"><span>Días Estadía:</span><span id="dias-estadia-display" class="fw-bold"></span></div>
                                     <div class="d-flex justify-content-between p-2 mb-2 bg-light text-dark rounded-pill"><span>Fecha Llegada:</span><span id="fecha-llegada-display" class="fw-bold"></span></div>
                                     <div class="d-flex justify-content-between p-2 mb-3 bg-light text-dark rounded-pill"><span>Fecha Salida:</span><span id="fecha-salida-display" class="fw-bold"></span></div>
-                                    <input type="text" class="form-control mb-2" placeholder="Nombres">
-                                    <input type="text" class="form-control mb-2" placeholder="Apellidos">
-                                    <input type="text" class="form-control mb-2" placeholder="DNI">
-                                    <input type="tel" class="form-control mb-2" placeholder="Teléfono">
-                                    <input type="text" class="form-control mb-3" placeholder="País">
-                                    <div class="d-grid"><button class="btn" style="background-color: #854848; color: white;">Confirmar Reserva</button></div>
+                                    <input type="text" class="form-control mb-2" id="reserva-nombres" placeholder="Nombres">
+                                    <input type="text" class="form-control mb-2" id="reserva-apellidos" placeholder="Apellidos">
+                                    <input type="text" class="form-control mb-2" id="reserva-dni" placeholder="DNI">
+                                    <input type="tel" class="form-control mb-2" id="reserva-telefono" placeholder="Teléfono">
+                                    <input type="text" class="form-control mb-3" id="reserva-pais" placeholder="País">
+                                    <div class="d-flex justify-content-center gap-3 mt-4">
+                                        <button type="button" class="btn btn-secondary">Guardar Datos</button>
+                                        <button type="button" class="btn" id="confirmar-reserva-btn" style="background-color: #854848; color: white;">Confirmar Reserva</button>
+                                    </div>
                                 </div>
                             </section>
                             <section class="col-lg-7">
@@ -992,6 +997,21 @@
                             </section>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: #043034; border-radius: 15px;">
+                <div class="modal-body text-center text-white p-5">
+                    <i class="fas fa-check-circle fa-5x" style="color: #52C41A;"></i>
+                    <h3 class="mt-4 mb-3">GRACIAS POR SU RESERVA</h3>
+                    <p>La reserva de su habitación se ha procesado correctamente.</p>
+                    <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">Confirmar</button>
                 </div>
             </div>
         </div>

@@ -11,105 +11,264 @@
 
     <style>
         /* Estilos generales */
-        body, html { height: 100%; font-family: 'Montserrat', sans-serif; background-color: #f0f0f0; overflow-x: hidden; }
-        .dashboard-container { display: flex; min-height: 100vh; }
-        .sidebar { background-color: #043034; padding: 25px; color: white; flex: 0 0 280px; }
-        .sidebar-header { font-size: 1.5rem; font-weight: bold; padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid #94B686; }
-        .sidebar .nav-link { display: flex; align-items: center; font-size: 1.1rem; font-weight: 500; margin-bottom: 12px; padding: 12px 20px; border-radius: 50px; transition: all 0.3s ease; background-color: #f0f0f0; color: #043034; cursor: pointer; }
-        .sidebar .nav-link:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .sidebar .nav-link.active { background-color: #94B686; color: white; font-weight: 700; }
-        .sidebar .nav-link i { font-size: 1.2rem; }
-        .main-content { flex-grow: 1; background-color: #e9ecef; color: #043034; padding: 40px; }
-        .chart-card { background-color: #ffffff; border-radius: 15px; padding: 25px; box-shadow: 0 6px 15px rgba(0,0,0,0.07); height: 100%; }
-        .chart-card h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.2rem; color: #333; margin-bottom: 20px; }
-        .legend-container { margin-top: 25px; padding-left: 10px; }
-        .legend-item { display: flex; align-items: center; margin-bottom: 10px; font-size: 1rem; }
-        .legend-color-box { width: 20px; height: 20px; margin-right: 15px; border-radius: 4px; }
+        body, html { 
+            height: 100%; 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: #f0f0f0; 
+            overflow-x: hidden; 
+        }
+
+        /* ESTILOS PARA LA BARRA LATERAL DE ESCRITORIO (CORREGIDO) */
+        .sidebar-desktop { 
+            background-color: #043034; 
+            padding: 25px; 
+            color: white; 
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+        .sidebar-desktop .sidebar-header { 
+            font-size: 1.5rem; 
+            font-weight: bold; 
+            padding-bottom: 1.5rem; 
+            margin-bottom: 1.5rem; 
+            border-bottom: 1px solid #94B686; 
+        }
+        
+        /* Regla base para los enlaces */
+        #sidebar-nav-desktop .nav-link { 
+            display: flex; 
+            align-items: center; 
+            font-size: 1.1rem; 
+            font-weight: 500; 
+            margin-bottom: 12px; 
+            padding: 12px 20px; 
+            border-radius: 50px; 
+            transition: all 0.3s ease; 
+            background-color: #f0f0f0; /* Color por defecto: gris claro */
+            color: #043034; /* Color de texto por defecto: oscuro */
+            cursor: pointer; 
+        }
+
+        /* Regla para el enlace activo (el que está seleccionado) */
+        #sidebar-nav-desktop .nav-link.active { 
+            background-color: #94B686; /* Fondo verde */
+            color: white; /* Texto blanco */
+            font-weight: 700; 
+        }
+
+        /* Regla para cuando pasas el mouse por encima (no activo) */
+        #sidebar-nav-desktop .nav-link:not(.active):hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background-color: #e2e6ea; /* Un gris un poco más oscuro al pasar el mouse */
+        }
+
+        .sidebar-desktop .nav-link i { 
+            font-size: 1.2rem; 
+        }
+        
+        /* ESTILOS PARA EL CONTENIDO PRINCIPAL */
+        .main-content { 
+            background-color: #e9ecef; 
+            color: #043034; 
+            padding: 40px; 
+        }
+        .chart-card { 
+            background-color: #ffffff; 
+            border-radius: 15px; 
+            padding: 25px; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.07); 
+            height: 100%; 
+        }
+        .chart-card h3 { 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 700; 
+            font-size: 1.2rem; 
+            color: #333; 
+            margin-bottom: 20px; 
+        }
+        .legend-container { 
+            margin-top: 25px; 
+            padding-left: 10px; 
+        }
+        .legend-item { 
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 10px; 
+            font-size: 1rem; 
+        }
+        .legend-color-box { 
+            width: 20px; 
+            height: 20px; 
+            margin-right: 15px; 
+            border-radius: 4px; 
+        }
+
+        /* --- NUEVOS ESTILOS PARA EL MENÚ DE MÓVIL (CONTROLADO POR APP.JS) --- */
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: #043034;
+        }
+
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); z-index: 1040;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        .sidebar-overlay.visible {
+            opacity: 1; visibility: visible; transition: opacity 0.3s ease;
+        }
+
+        .mobile-sidebar {
+            position: fixed; top: 0; left: 0; height: 100%; width: 300px;
+            background-color: #043034; /* Mismo color que el de escritorio */
+            z-index: 1050; padding: 25px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .mobile-sidebar.visible {
+            transform: translateX(0);
+        }
+        .mobile-sidebar .sidebar-header {
+            color: white; font-size: 1.5rem; font-weight: bold; padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem; border-bottom: 1px solid #94B686;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .mobile-sidebar .nav-link { /* Reutilizamos los mismos estilos de enlace */
+            display: flex; align-items: center; font-size: 1.1rem; font-weight: 500;
+            margin-bottom: 12px; padding: 12px 20px; border-radius: 50px;
+            transition: all 0.3s ease; background-color: #f0f0f0; color: #043034; cursor: pointer;
+        }
+        .mobile-sidebar .nav-link:hover, .mobile-sidebar .nav-link.active {
+            background-color: #94B686; color: white; font-weight: 700;
+        }
+        .mobile-sidebar .nav-link i { font-size: 1.2rem; }
+
     </style>
 </head>
 <body>
 
-<div class="dashboard-container">
-    
-    <nav class="sidebar">
-        <div class="sidebar-header">Dashboard - Hotel</div>
-        <ul id="sidebar-nav" class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" data-target="#panel-principal"><i class="fas fa-home me-3"></i> Panel - Principal</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-target="#panel-01"><i class="fas fa-chart-line me-3"></i> Panel - 01</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-target="#panel-02"><i class="fas fa-tachometer-alt me-3"></i> Panel - 02</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-target="#panel-03"><i class="fas fa-exclamation-triangle me-3"></i> Panel - 03</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-target="#panel-04"><i class="fas fa-desktop me-3"></i> Panel - 04</a>
-            </li>
-        </ul>
-    </nav>
+<div id="sidebar-overlay" class="sidebar-overlay"></div>
+<nav id="mobile-sidebar" class="mobile-sidebar">
+    <div class="sidebar-header">
+        <span>Dashboard</span>
+        <button id="close-sidebar-btn" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+    </div>
+    <ul id="sidebar-nav-mobile" class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" data-target="#panel-principal"><i class="fas fa-home me-3"></i> Panel - Principal</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-target="#panel-01"><i class="fas fa-chart-line me-3"></i> Panel - 01</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-target="#panel-02"><i class="fas fa-tachometer-alt me-3"></i> Panel - 02</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-target="#panel-03"><i class="fas fa-exclamation-triangle me-3"></i> Panel - 03</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-target="#panel-04"><i class="fas fa-desktop me-3"></i> Panel - 04</a>
+        </li>
+    </ul>
+</nav>
 
-    <main class="main-content">
-        <div id="panel-principal" class="panel-content">
-            <header class="text-center mb-5">
-                <h1>DASHBOARD WEB - HOTEL LOS CISNES</h1>
-                <p>Panel de monitoreo de tráfico y rendimiento web</p>
-            </header>
-            <div class="row">
-                <div class="col-lg-6 mb-4"><div class="chart-card"><h3>Tráfico por Sección</h3><canvas id="traficoChart"></canvas></div></div>
-                <div class="col-lg-6 mb-4"><div class="chart-card"><h3>Errores por sección</h3><canvas id="erroresChart"></canvas></div></div>
-                <div class="col-lg-6 mb-4"><div class="chart-card"><h3>Dispositivos Utilizados</h3><canvas id="dispositivosChart"></canvas></div></div>
-                <div class="col-lg-6 mb-4"><div class="chart-card"><h3>Velocidad por Página (s)</h3><canvas id="velocidadChart"></canvas></div></div>
-            </div>
-        </div>
-
-        <div id="panel-01" class="panel-content d-none">
-             <header class="text-center mb-5"><h1>Análisis de Tráfico por Sección</h1><p>Vista detallada del origen del tráfico y su distribución porcentual.</p></header>
-            <div class="row">
-                <div class="col-lg-7 mb-4"><div class="chart-card"><h3>Tráfico por Sección (Absoluto)</h3><canvas id="horizontalBarChart"></canvas></div></div>
-                <div class="col-lg-5 mb-4"><div class="chart-card"><h3>Valor porcentual</h3><canvas id="doughnutChart"></canvas><div id="legend-panel-01" class="legend-container"></div></div></div>
-            </div>
-        </div>
-
-        <div id="panel-02" class="panel-content d-none">
-             <header class="text-center mb-5"><h1>Análisis de Velocidad por Página</h1><p>Vista detallada de los tiempos de carga y su distribución porcentual.</p></header>
-            <div class="row">
-                <div class="col-lg-7 mb-4"><div class="chart-card"><h3>Velocidad por Página (s)</h3><canvas id="velocidadBarChart"></canvas></div></div>
-                <div class="col-lg-5 mb-4"><div class="chart-card"><h3>Distribución de Lentitud (%)</h3><canvas id="velocidadDoughnutChart"></canvas><div id="legend-panel-02" class="legend-container"></div></div></div>
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3 col-xl-2 d-none d-lg-block sidebar-desktop">
+            <div class="sidebar-header">Dashboard - Hotel</div>
+            <ul id="sidebar-nav-desktop" class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" data-target="#panel-principal"><i class="fas fa-home me-3"></i> Panel - Principal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-target="#panel-01"><i class="fas fa-chart-line me-3"></i> Panel - 01</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-target="#panel-02"><i class="fas fa-tachometer-alt me-3"></i> Panel - 02</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-target="#panel-03"><i class="fas fa-exclamation-triangle me-3"></i> Panel - 03</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-target="#panel-04"><i class="fas fa-desktop me-3"></i> Panel - 04</a>
+                </li>
+            </ul>
         </div>
 
-        <div id="panel-03" class="panel-content d-none">
-             <header class="text-center mb-5"><h1>Análisis de Errores por Sección</h1><p>Vista detallada de los errores de la web y su distribución porcentual.</p></header>
-            <div class="row">
-                <div class="col-lg-7 mb-4"><div class="chart-card"><h3>Total de Errores por Sección</h3><canvas id="erroresBarChart"></canvas></div></div>
-                <div class="col-lg-5 mb-4"><div class="chart-card"><h3>Distribución de Errores (%)</h3><canvas id="erroresDoughnutChart"></canvas><div id="legend-panel-03" class="legend-container"></div></div></div>
-            </div>
+        <div class="col-lg-9 col-xl-10">
+            <main class="main-content">
+                <header class="d-flex d-lg-none justify-content-between align-items-center mb-4">
+                    <div class="menu-icon">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <a href="index.html" class="btn btn-dark">Volver al Inicio</a>
+                </header>
+
+                <div id="panel-principal" class="panel-content">
+                    <header class="text-center mb-5">
+                        <h1>DASHBOARD WEB - HOTEL LOS CISNES</h1>
+                        <p>Panel de monitoreo de tráfico y rendimiento web</p>
+                    </header>
+                    <div class="row">
+                        <div class="col-xl-6 mb-4"><div class="chart-card"><h3>Tráfico por Sección</h3><canvas id="traficoChart"></canvas></div></div>
+                        <div class="col-xl-6 mb-4"><div class="chart-card"><h3>Errores por sección</h3><canvas id="erroresChart"></canvas></div></div>
+                        <div class="col-xl-6 mb-4"><div class="chart-card"><h3>Dispositivos Utilizados</h3><canvas id="dispositivosChart"></canvas></div></div>
+                        <div class="col-xl-6 mb-4"><div class="chart-card"><h3>Velocidad por Página (s)</h3><canvas id="velocidadChart"></canvas></div></div>
+                    </div>
+                </div>
+
+                <div id="panel-01" class="panel-content d-none">
+                     <header class="text-center mb-5"><h1>Análisis de Tráfico por Sección</h1><p>Vista detallada del origen del tráfico y su distribución porcentual.</p></header>
+                    <div class="row">
+                        <div class="col-lg-7 mb-4"><div class="chart-card"><h3>Tráfico por Sección (Absoluto)</h3><canvas id="horizontalBarChart"></canvas></div></div>
+                        <div class="col-lg-5 mb-4"><div class="chart-card"><h3>Valor porcentual</h3><canvas id="doughnutChart"></canvas><div id="legend-panel-01" class="legend-container"></div></div></div>
+                    </div>
+                </div>
+
+                <div id="panel-02" class="panel-content d-none">
+                     <header class="text-center mb-5"><h1>Análisis de Velocidad por Página</h1><p>Vista detallada de los tiempos de carga y su distribución porcentual.</p></header>
+                    <div class="row">
+                        <div class="col-lg-7 mb-4"><div class="chart-card"><h3>Velocidad por Página (s)</h3><canvas id="velocidadBarChart"></canvas></div></div>
+                        <div class="col-lg-5 mb-4"><div class="chart-card"><h3>Distribución de Lentitud (%)</h3><canvas id="velocidadDoughnutChart"></canvas><div id="legend-panel-02" class="legend-container"></div></div></div>
+                    </div>
+                </div>
+
+                <div id="panel-03" class="panel-content d-none">
+                     <header class="text-center mb-5"><h1>Análisis de Errores por Sección</h1><p>Vista detallada de los errores de la web y su distribución porcentual.</p></header>
+                    <div class="row">
+                        <div class="col-lg-7 mb-4"><div class="chart-card"><h3>Total de Errores por Sección</h3><canvas id="erroresBarChart"></canvas></div></div>
+                        <div class="col-lg-5 mb-4"><div class="chart-card"><h3>Distribución de Errores (%)</h3><canvas id="erroresDoughnutChart"></canvas><div id="legend-panel-03" class="legend-container"></div></div></div>
+                    </div>
+                </div>
+                
+                <div id="panel-04" class="panel-content d-none">
+                     <header class="text-center mb-5"><h1>Análisis de Dispositivos Utilizados</h1><p>Vista detallada del tipo de dispositivo de los usuarios y su distribución.</p></header>
+                    <div class="row">
+                        <div class="col-lg-7 mb-4"><div class="chart-card"><h3>Uso por Tipo de Dispositivo</h3><canvas id="dispositivosBarChart2"></canvas></div></div>
+                        <div class="col-lg-5 mb-4"><div class="chart-card"><h3>Cuota de Mercado por Dispositivo (%)</h3><canvas id="dispositivosDoughnutChart"></canvas><div id="legend-panel-04" class="legend-container"></div></div></div>
+                    </div>
+                </div>
+            </main>
         </div>
-        
-        <div id="panel-04" class="panel-content d-none">
-             <header class="text-center mb-5"><h1>Análisis de Dispositivos Utilizados</h1><p>Vista detallada del tipo de dispositivo de los usuarios y su distribución.</p></header>
-            <div class="row">
-                <div class="col-lg-7 mb-4"><div class="chart-card"><h3>Uso por Tipo de Dispositivo</h3><canvas id="dispositivosBarChart2"></canvas></div></div>
-                <div class="col-lg-5 mb-4"><div class="chart-card"><h3>Cuota de Mercado por Dispositivo (%)</h3><canvas id="dispositivosDoughnutChart"></canvas><div id="legend-panel-04" class="legend-container"></div></div></div>
-            </div>
-        </div>
-    </main>
+    </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="app.js"></script>
 
 <script>
+    // Se mantiene el script original que maneja los gráficos y los paneles.
     document.addEventListener('DOMContentLoaded', function () {
         
-        // --- FUNCIÓN HELPER PARA CREAR LEYENDAS ---
         function createCustomLegend(chart, legendContainerId) {
             const legendContainer = document.getElementById(legendContainerId);
-            legendContainer.innerHTML = ''; // Limpiar leyenda anterior
+            legendContainer.innerHTML = '';
             chart.data.labels.forEach((label, index) => {
                 const color = chart.data.datasets[0].backgroundColor[index];
                 const legendItem = document.createElement('div');
@@ -119,49 +278,61 @@
             });
         }
 
-        // --- INICIALIZACIÓN DE TODOS LOS GRÁFICOS ---
-
-        // Panel Principal
         new Chart(document.getElementById('traficoChart'), { type: 'bar', data: { labels: ['Inicio', 'Habitaciones', 'Reservas', 'Galería', 'Contacto'], datasets: [{ data: [1800, 1300, 900, 700, 600], backgroundColor: 'rgba(176, 58, 46, 0.7)' }] }, options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
         new Chart(document.getElementById('erroresChart'), { type: 'bar', data: { labels: ['Contacto', 'Reservas', 'Galería', 'Inicio'], datasets: [{ data: [3, 12, 1, 8], backgroundColor: 'rgba(211, 84, 0, 0.7)' }] }, options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
         new Chart(document.getElementById('dispositivosChart'), { type: 'bar', data: { labels: ['Móvil', 'Laptop', 'Tablet', 'Smart TV'], datasets: [{ data: [55, 30, 10, 5], backgroundColor: 'rgba(4, 48, 52, 0.8)' }] }, options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
         new Chart(document.getElementById('velocidadChart'), { type: 'bar', data: { labels: ['Inicio', 'Habitaciones', 'Galería', 'Contacto'], datasets: [{ data: [1.2, 1.6, 2.0, 1.0], backgroundColor: 'rgba(148, 182, 134, 0.8)' }] }, options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
-
-        // Panel 01: Tráfico Detallado
         new Chart(document.getElementById('horizontalBarChart'), { type: 'bar', data: { labels: ['Galería', 'Contacto', 'Habitaciones', 'Reservas', 'Inicio'], datasets: [{ data: [700, 600, 1300, 900, 1800], backgroundColor: ['#94b686', '#bdc3c7', '#043034', '#d35400', '#b03a2e'], borderWidth: 2 }] }, options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } } });
         const doughnutChart1 = new Chart(document.getElementById('doughnutChart'), { type: 'doughnut', data: { labels: ['Inicio', 'Habitaciones', 'Reservas', 'Galería', 'Contacto'], datasets: [{ data: [34, 25, 17, 13, 11], backgroundColor: ['#b03a2e', '#043034', '#d35400', '#94b686', '#bdc3c7'], hoverOffset: 4 }] }, options: { cutout: '70%', plugins: { legend: { display: false } } } });
         createCustomLegend(doughnutChart1, 'legend-panel-01');
-
-        // Panel 02: Velocidad Detallada
         new Chart(document.getElementById('velocidadBarChart'), { type: 'bar', data: { labels: ['Contacto', 'Galería', 'Habitaciones', 'Inicio'], datasets: [{ data: [1, 2, 1.6, 1.2], backgroundColor: ['#a1887f', '#043034', '#b03a2e', '#d35400'], borderWidth: 2 }] }, options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } } });
         const doughnutChart2 = new Chart(document.getElementById('velocidadDoughnutChart'), { type: 'doughnut', data: { labels: ['Galería', 'Habitaciones', 'Inicio', 'Contacto'], datasets: [{ data: [34, 28, 21, 17], backgroundColor: ['#043034', '#b03a2e', '#d35400', '#a1887f'], hoverOffset: 4 }] }, options: { cutout: '70%', plugins: { legend: { display: false } } } });
         createCustomLegend(doughnutChart2, 'legend-panel-02');
-
-        // Panel 03: Errores Detallados
         new Chart(document.getElementById('erroresBarChart'), { type: 'bar', data: { labels: ['Galería', 'Contacto', 'Inicio', 'Reservas'], datasets: [{ data: [1, 3, 8, 12], backgroundColor: ['#9e9d24', '#043034', '#d35400', '#b03a2e'], borderWidth: 2 }] }, options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } } });
         const doughnutChart3 = new Chart(document.getElementById('erroresDoughnutChart'), { type: 'doughnut', data: { labels: ['Reservas', 'Inicio', 'Contacto', 'Galería'], datasets: [{ data: [50, 33, 13, 4], backgroundColor: ['#b03a2e', '#d35400', '#043034', '#9e9d24'], hoverOffset: 4 }] }, options: { cutout: '70%', plugins: { legend: { display: false } } } });
         createCustomLegend(doughnutChart3, 'legend-panel-03');
-
-        // Panel 04: Dispositivos Detallados
         new Chart(document.getElementById('dispositivosBarChart2'), { type: 'bar', data: { labels: ['Smart TV', 'Tablet', 'Laptop/PC', 'Móvil'], datasets: [{ data: [5, 10, 30, 55], backgroundColor: ['#9e9d24', '#d35400', '#b03a2e', '#043034'], borderWidth: 2 }] }, options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } } });
         const doughnutChart4 = new Chart(document.getElementById('dispositivosDoughnutChart'), { type: 'doughnut', data: { labels: ['Móvil', 'Laptop/PC', 'Tablet', 'Smart TV'], datasets: [{ data: [55, 30, 10, 5], backgroundColor: ['#043034', '#b03a2e', '#d35400', '#9e9d24'], hoverOffset: 4 }] }, options: { cutout: '70%', plugins: { legend: { display: false } } } });
         createCustomLegend(doughnutChart4, 'legend-panel-04');
 
-        // --- LÓGICA DE NAVEGACIÓN DE PÁGINA ÚNICA ---
-        const navLinks = document.querySelectorAll('#sidebar-nav .nav-link');
+        // --- LÓGICA DE NAVEGACIÓN UNIFICADA ---
+        // Ahora selecciona todos los enlaces de ambos menús
+        const navLinks = document.querySelectorAll('#sidebar-nav-desktop a, #sidebar-nav-mobile a');
         const panels = document.querySelectorAll('.panel-content');
+
+        // Función para cerrar el menú móvil si está abierto
+        const closeMobileMenuIfNeeded = () => {
+            const sidebar = document.getElementById('mobile-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar && sidebar.classList.contains('visible')) {
+                sidebar.classList.remove('visible');
+                overlay.classList.remove('visible');
+            }
+        };
 
         navLinks.forEach(link => {
             link.addEventListener('click', function(event) {
                 event.preventDefault();
                 const targetId = this.getAttribute('data-target');
                 const targetPanel = document.querySelector(targetId);
+                
+                // Ocultar todos los paneles y mostrar el correcto
                 panels.forEach(panel => panel.classList.add('d-none'));
                 if (targetPanel) {
                     targetPanel.classList.remove('d-none');
                 }
-                navLinks.forEach(navLink => navLink.classList.remove('active'));
-                this.classList.add('active');
+
+                // Sincronizar el estado 'active' en ambos menús
+                navLinks.forEach(navLink => {
+                    if (navLink.getAttribute('data-target') === targetId) {
+                        navLink.classList.add('active');
+                    } else {
+                        navLink.classList.remove('active');
+                    }
+                });
+
+                // Cierra el menú móvil después de hacer clic
+                closeMobileMenuIfNeeded();
             });
         });
     });

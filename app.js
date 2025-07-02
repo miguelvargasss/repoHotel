@@ -6,273 +6,240 @@ document.addEventListener('DOMContentLoaded', () => {
     let fechaSalidaSeleccionada = '';
     let metodoPagoSeleccionado = 'Efectivo';
 
-    // ---- Inicialización de Modales de Bootstrap ----
+    // ---- Inicialización de Modales de Bootstrap Unificada ----
     const reservaModalEl = document.getElementById('reservaModal');
-    const reservaModal = new bootstrap.Modal(reservaModalEl);
-
     const loginModalEl = document.getElementById('loginModal');
-    const loginModal = new bootstrap.Modal(loginModalEl);
-
     const registroModalEl = document.getElementById('registroModal');
-    const registroModal = new bootstrap.Modal(registroModalEl);
+    const confirmacionModalEl = document.getElementById('confirmacionModal');
+
+    // Guardaremos las instancias de los modales para poder usarlas después (ej: .show(), .hide())
+    let reservaModal, loginModal, registroModal, confirmacionModal;
+
+    if (reservaModalEl) reservaModal = new bootstrap.Modal(reservaModalEl);
+    if (loginModalEl) loginModal = new bootstrap.Modal(loginModalEl);
+    if (registroModalEl) registroModal = new bootstrap.Modal(registroModalEl);
+    if (confirmacionModalEl) confirmacionModal = new bootstrap.Modal(confirmacionModalEl);
     
-    // ---- Lógica para el Widget de Reserva ----
-
-    // 1. Selector de Habitaciones
-    const dropdownButton = document.getElementById('habitaciones-dropdown');
-    const dropdownMenu = document.querySelector('[aria-labelledby="habitaciones-dropdown"]');
-    
-    dropdownMenu.addEventListener('click', (event) => {
-        if (event.target.tagName === 'A') {
-            event.preventDefault();
-            habitacionSeleccionada = event.target.dataset.value;
-            dropdownButton.textContent = `Habitación: ${habitacionSeleccionada}`;
-        }
-    });
-
-    // --- Logica para metodo pago ----
-    // --- LÓGICA PARA EL DROPDOWN DE MÉTODO DE PAGO EN EL MODAL ---
-
-// 1. Seleccionamos los elementos del nuevo dropdown
-const pagoDropdownButton = document.getElementById('metodo-pago-dropdown');
-const pagoDropdownMenu = document.querySelector('[aria-labelledby="metodo-pago-dropdown"]');
-
-// 2. Añadimos un listener al menú
-if (pagoDropdownMenu) { // Verificamos que el elemento exista
-    pagoDropdownMenu.addEventListener('click', (event) => {
-        // Nos aseguramos que el click fue en un enlace (<a>)
-        if (event.target.tagName === 'A') {
-            event.preventDefault(); // Evitamos que la página se recargue
-
-            // Guardamos el valor seleccionado en nuestra variable
-            metodoPagoSeleccionado = event.target.dataset.value;
-
-            // Actualizamos el texto del botón para mostrar la selección
-            pagoDropdownButton.textContent = `M. Pago: ${metodoPagoSeleccionado}`;
-
-            console.log(`Método de pago seleccionado: ${metodoPagoSeleccionado}`); // Opcional: para verificar en consola
-        }
-    });
-}
-
-    // 2. Selectores de Fecha (Flatpickr)
-    const fpLlegada = flatpickr("#fecha-llegada", {
-        dateFormat: "Y-m-d",
-        minDate: "today",
-        locale: "es",
-        onChange: function(selectedDates, dateStr) {
-            fechaLlegadaSeleccionada = dateStr;
-            // Forzar que la fecha de salida sea posterior a la de llegada
-            if (selectedDates[0]) {
-                fpSalida.set('minDate', selectedDates[0]);
-            }
-        }
-    });
-
-    const fpSalida = flatpickr("#fecha-salida", {
-        dateFormat: "Y-m-d",
-        minDate: "today",
-        locale: "es",
-        onChange: function(selectedDates, dateStr) {
-            fechaSalidaSeleccionada = dateStr;
-        }
-    });
-
-    // 3. Botón "RESERVAR"
-    const botonReservar = document.getElementById('reservarBtn');
-    botonReservar.addEventListener('click', () => {
-        if (!fechaLlegadaSeleccionada || !fechaSalidaSeleccionada) {
-            alert('Por favor, selecciona una fecha de llegada y de salida.');
-            return;
-        }
-
-        // Pasar datos al modal de reserva ANTES de mostrarlo
-        document.getElementById('reserva-tipo-habitacion').textContent = `Habitación ${habitacionSeleccionada}`;
-
-        const fechaLlegada = new Date(fechaLlegadaSeleccionada + 'T00:00:00');
-        const fechaSalida = new Date(fechaSalidaSeleccionada + 'T00:00:00');
+    // ---- Lógica para el Widget de Reserva (SOLO si existe en la página) ----
+    const widgetDeReserva = document.getElementById('reservarBtn');
+    if (widgetDeReserva) {
+        // 1. Selector de Habitaciones
+        const dropdownButton = document.getElementById('habitaciones-dropdown');
+        const dropdownMenu = document.querySelector('[aria-labelledby="habitaciones-dropdown"]');
         
-        const diffTime = Math.abs(fechaSalida - fechaLlegada);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        document.getElementById('dias-estadia-display').textContent = diffDays > 0 ? diffDays : 1;
-        document.getElementById('fecha-llegada-display').textContent = fechaLlegada.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        document.getElementById('fecha-salida-display').textContent = fechaSalida.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-
-        // Cambiar la imagen de la habitación según la selección (ejemplo)
-        const imagenHabitacion = document.getElementById('reserva-imagen-habitacion');
-        if (habitacionSeleccionada === 'Standard') {
-            imagenHabitacion.src = 'img/Habi-Popular2.png';
-        } else if (habitacionSeleccionada === 'Deluxe') {
-             imagenHabitacion.src = 'img/Habi-Popular3.png';
-        } else {
-             imagenHabitacion.src = 'img/Habi-Popular1.png';
-        }
-
-        // Mostrar el modal de reserva
-        reservaModal.show();
-    });
-
-    // ---- Lógica para botones de Login y Registro en la barra superior ----
-    document.getElementById('loginBtn').addEventListener('click', () => {
-        loginModal.show();
-    });
-
-    document.getElementById('registerBtn').addEventListener('click', () => {
-        registroModal.show();
-    });
-
-
-    // --- LÓGICA PARA EL CARRUSEL DE SCROLLING PERSONALIZADO ---
-    const carouselContainer = document.querySelector('#scrolling-carousel');
-    if (carouselContainer) { // Solo ejecutar si el carrusel existe en la página
-        const carouselWrapper = carouselContainer.querySelector('.scrolling-wrapper');
-        const prevBtn = carouselContainer.querySelector('#scroll-prev');
-        const nextBtn = carouselContainer.querySelector('#scroll-next');
-        const cards = carouselContainer.querySelectorAll('.room-card-wrapper');
-        
-        let currentIndex = 0;
-
-        function updateCarousel() {
-            if (cards.length === 0) return; // Salir si no hay tarjetas
-            const cardWidth = cards[0].offsetWidth; // Ancho de una tarjeta, incluyendo padding
-            const offset = -currentIndex * cardWidth;
-            carouselWrapper.style.transform = `translateX(${offset}px)`;
-        }
-
-        function getVisibleCardsCount() {
-            if (cards.length === 0) return 0;
-            const containerWidth = carouselContainer.querySelector('.carousel-inner-scroll').offsetWidth;
-            const cardWidth = cards[0].offsetWidth;
-            // Evitar división por cero si el ancho de la tarjeta es 0
-            return cardWidth > 0 ? Math.floor(containerWidth / cardWidth) : 0;
-        }
-
-        nextBtn.addEventListener('click', () => {
-            const visibleCards = getVisibleCardsCount();
-            if (currentIndex < cards.length - visibleCards) {
-                currentIndex++;
-                updateCarousel();
-            }
-        });
-
-        prevBtn.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateCarousel();
-            }
-        });
-
-        // Actualizar en caso de que cambie el tamaño de la ventana
-        window.addEventListener('resize', () => {
-            // Reiniciar para evitar cálculos incorrectos
-            currentIndex = 0;
-            updateCarousel();
-        });
-
-        // Una llamada inicial para asegurar la posición correcta al cargar
-        updateCarousel();
-    }
-
-
-    // --- LÓGICA PARA MOSTRAR/OCULTAR CONTRASEÑA EN LOGIN ---
-    const loginModalContainer = document.getElementById('loginModal');
-    if (loginModalContainer) { // Ejecutar solo si el modal de login existe
-        
-        const togglePassword = loginModalContainer.querySelector('#togglePassword');
-        const passwordInput = loginModalContainer.querySelector('#login-password');
-
-        if(togglePassword && passwordInput) {
-            togglePassword.addEventListener('click', function () {
-                // Comprobar el tipo de input actual
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                
-                // Cambiar el ícono del ojo
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
-            });
-        }
-    }
-
-    // --- LÓGICA PARA LA MEJORA DEL MODAL DE REGISTRO ---
-    const registroForm = document.getElementById('registroForm');
-    if(registroForm) { // Solo ejecutar si el formulario existe
-        const passInput = document.getElementById('registro-password');
-        const togglePassIcon = document.getElementById('toggleRegistroPassword');
-        const termsCheck = document.getElementById('registro-terminos');
-        const submitBtn = document.getElementById('registroSubmitBtn');
-
-        const requiredInputs = registroForm.querySelectorAll('input[required]:not([type="checkbox"])');
-
-        if(togglePassIcon && passInput) {
-            togglePassIcon.addEventListener('click', function() {
-                const type = passInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passInput.setAttribute('type', type);
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
-            });
-        }
-
-        function validateForm() {
-            let allFieldsValid = true;
-            requiredInputs.forEach(input => {
-                if (input.value.trim() === '') {
-                    allFieldsValid = false;
+        if (dropdownMenu) {
+            dropdownMenu.addEventListener('click', (event) => {
+                if (event.target.tagName === 'A') {
+                    event.preventDefault();
+                    habitacionSeleccionada = event.target.dataset.value;
+                    dropdownButton.textContent = `Habitación: ${habitacionSeleccionada}`;
                 }
             });
-            if (!termsCheck.checked) {
-                allFieldsValid = false;
-            }
-            submitBtn.disabled = !allFieldsValid;
         }
 
-        registroForm.addEventListener('keyup', validateForm);
-        termsCheck.addEventListener('change', validateForm);
+        // 2. Selectores de Fecha (Flatpickr)
+        const fpLlegada = flatpickr("#fecha-llegada", {
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            locale: "es",
+            onChange: function(selectedDates, dateStr) {
+                fechaLlegadaSeleccionada = dateStr;
+                if (selectedDates[0]) {
+                    // Asegura que la fecha de salida sea como mínimo un día después de la llegada
+                    const nextDay = new Date(selectedDates[0]);
+                    nextDay.setDate(nextDay.getDate() + 1);
+                    fpSalida.set('minDate', nextDay);
+                }
+            }
+        });
 
-        registroForm.addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            validateForm();
-            if (!submitBtn.disabled) {
-                alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
-                
-                const registroModalInst = bootstrap.Modal.getInstance(registroModalEl);
-                registroModalInst.hide();
-                loginModal.show();
+        const fpSalida = flatpickr("#fecha-salida", {
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            locale: "es",
+            onChange: function(selectedDates, dateStr) {
+                fechaSalidaSeleccionada = dateStr;
+            }
+        });
+
+        // 3. Botón "RESERVAR"
+        widgetDeReserva.addEventListener('click', () => {
+            if (!fechaLlegadaSeleccionada || !fechaSalidaSeleccionada) {
+                alert('Por favor, selecciona una fecha de llegada y de salida.');
+                return;
+            }
+            document.getElementById('reserva-tipo-habitacion').textContent = `Habitación ${habitacionSeleccionada}`;
+            const fechaLlegada = new Date(fechaLlegadaSeleccionada + 'T00:00:00');
+            const fechaSalida = new Date(fechaSalidaSeleccionada + 'T00:00:00');
+            const diffTime = Math.abs(fechaSalida - fechaLlegada);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            document.getElementById('dias-estadia-display').textContent = diffDays > 0 ? diffDays : 1;
+            document.getElementById('fecha-llegada-display').textContent = fechaLlegada.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            document.getElementById('fecha-salida-display').textContent = fechaSalida.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const imagenHabitacion = document.getElementById('reserva-imagen-habitacion');
+            if (habitacionSeleccionada === 'Standard') imagenHabitacion.src = 'img/Habi-Popular2.png';
+            else if (habitacionSeleccionada === 'Deluxe') imagenHabitacion.src = 'img/Habi-Popular3.png';
+            else imagenHabitacion.src = 'img/Habi-Popular1.png';
+            
+            if(reservaModal) reservaModal.show();
+        });
+
+        // 4. Lógica para método de pago en el modal de reserva
+        const pagoDropdownButton = document.getElementById('metodo-pago-dropdown');
+        const pagoDropdownMenu = document.querySelector('[aria-labelledby="metodo-pago-dropdown"]');
+        if (pagoDropdownMenu) {
+            pagoDropdownMenu.addEventListener('click', (event) => {
+                if (event.target.tagName === 'A') {
+                    event.preventDefault();
+                    metodoPagoSeleccionado = event.target.dataset.value;
+                    pagoDropdownButton.textContent = `M. Pago: ${metodoPagoSeleccionado}`;
+                }
+            });
+        }
+    }
+
+    // ---- Lógica para botones de Login y Registro en la barra superior ----
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    if (loginBtn && registerBtn) {
+        loginBtn.addEventListener('click', () => {
+            if(loginModal) loginModal.show();
+        });
+        registerBtn.addEventListener('click', () => {
+            if(registroModal) registroModal.show();
+        });
+    }
+
+    // --- LÓGICA PARA EL CARRUSEL DE SCROLLING (AÑADIDO) ---
+    const scrollContainer = document.querySelector('.scrolling-wrapper');
+    const scrollNextBtn = document.getElementById('scroll-next');
+    const scrollPrevBtn = document.getElementById('scroll-prev');
+
+    if (scrollContainer && scrollNextBtn && scrollPrevBtn) {
+        // Función para desplazar el carrusel
+        const scrollCarousel = (direction) => {
+            const card = document.querySelector('.room-card-wrapper');
+            if (card) {
+                const cardWidth = card.offsetWidth; // Obtiene el ancho de una tarjeta, incluyendo padding
+                scrollContainer.scrollBy({ left: cardWidth * direction, behavior: 'smooth' });
+            }
+        };
+
+        scrollNextBtn.addEventListener('click', () => scrollCarousel(1)); // Desplaza a la derecha
+        scrollPrevBtn.addEventListener('click', () => scrollCarousel(-1)); // Desplaza a la izquierda
+    }
+    
+    // --- LÓGICA PARA MOSTRAR/OCULTAR CONTRASEÑA EN LOGIN (AÑADIDO) ---
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('login-password');
+
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', () => {
+            // Cambia el tipo de input entre 'password' y 'text'
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            // Cambia el icono del ojo
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+    }
+
+    // --- LÓGICA PARA LA MEJORA DEL MODAL DE REGISTRO (AÑADIDO) ---
+    const registroForm = document.getElementById('registroForm');
+    if (registroForm) {
+        const toggleRegistroPassword = document.getElementById('toggleRegistroPassword');
+        const registroPasswordInput = document.getElementById('registro-password');
+        const registroSubmitBtn = document.getElementById('registroSubmitBtn');
+        const requiredInputs = registroForm.querySelectorAll('[required]');
+
+        // 1. Mostrar/Ocultar contraseña del formulario de registro
+        if (toggleRegistroPassword && registroPasswordInput) {
+             toggleRegistroPassword.addEventListener('click', () => {
+                const type = registroPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                registroPasswordInput.setAttribute('type', type);
+                toggleRegistroPassword.classList.toggle('fa-eye');
+                toggleRegistroPassword.classList.toggle('fa-eye-slash');
+            });
+        }
+
+        // 2. Función para validar el formulario y habilitar/deshabilitar el botón
+        const validateForm = () => {
+            let allValid = true;
+            requiredInputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    if (!input.checked) {
+                        allValid = false;
+                    }
+                } else {
+                    if (input.value.trim() === '') {
+                        allValid = false;
+                    }
+                }
+            });
+            // Habilita o deshabilita el botón según el resultado
+            registroSubmitBtn.disabled = !allValid;
+        };
+
+        // 3. Añadir escuchadores de eventos para validar en tiempo real
+        requiredInputs.forEach(input => {
+            input.addEventListener('input', validateForm);
+            input.addEventListener('change', validateForm); // Para el checkbox
+        });
+    }
+
+    // ---- LÓGICA PARA EL MENÚ LATERAL DE INDEX.HTML (AÑADIDO) ----
+    const menuIcon = document.querySelector('.top-bar .menu-icon');
+    const mobileSidebar = document.getElementById('mobile-sidebar'); // Usa el ID general
+    const sidebarOverlay = document.getElementById('sidebar-overlay'); // Usa el ID general
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+
+    // Comprueba que los elementos del menú de la página de inicio existan
+    if (menuIcon && mobileSidebar && sidebarOverlay && closeSidebarBtn && mobileSidebar.classList.contains('mobile-sidebar-custom')) {
+        
+        const openSidebar = () => {
+            mobileSidebar.classList.add('visible');
+            sidebarOverlay.classList.add('visible');
+        };
+
+        const closeSidebar = () => {
+            mobileSidebar.classList.remove('visible');
+            sidebarOverlay.classList.remove('visible');
+        };
+
+        menuIcon.addEventListener('click', openSidebar);
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+    }
+
+
+    // --- LÓGICA PARA CONFIRMAR RESERVA Y VALIDAR DATOS ---
+    const confirmarReservaBtn = document.getElementById('confirmar-reserva-btn');
+    if (confirmarReservaBtn && reservaModal && confirmacionModal) {
+        
+        confirmarReservaBtn.addEventListener('click', () => {
+            
+            // 1. Identificar los campos de texto que deben estar llenos
+            const camposRequeridos = [
+                document.getElementById('reserva-nombres'),
+                document.getElementById('reserva-apellidos'),
+                document.getElementById('reserva-dni'),
+                document.getElementById('reserva-telefono'),
+                document.getElementById('reserva-pais')
+            ];
+
+            // 2. Verificar que todos los campos tengan texto
+            const todosLosCamposEstanLlenos = camposRequeridos.every(campo => campo && campo.value.trim() !== '');
+
+            // 3. Decidir la acción a tomar
+            if (todosLosCamposEstanLlenos) {
+                // Si todo está correcto, ocultar el modal de reserva y mostrar el de confirmación
+                reservaModal.hide();
+                confirmacionModal.show();
+            } else {
+                // Si falta algún dato, mostrar una alerta al usuario
+                alert('Por favor, complete todos los campos de datos personales para confirmar la reserva.');
             }
         });
     }
 
-    
-    const menuIcon = document.querySelector('.menu-icon');
-    const sidebar = document.getElementById('mobile-sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    const closeBtn = document.getElementById('close-sidebar-btn');
-
-    // Función para abrir el sidebar
-    const openSidebar = () => {
-        if(sidebar && overlay) {
-            sidebar.classList.add('visible');
-            overlay.classList.add('visible');
-        }
-    };
-
-    // Función para cerrar el sidebar
-    const closeSidebar = () => {
-        if(sidebar && overlay) {
-            sidebar.classList.remove('visible');
-            overlay.classList.remove('visible');
-        }
-    };
-
-    // Eventos para abrir y cerrar
-    if (menuIcon) {
-        menuIcon.addEventListener('click', openSidebar);
-    }
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeSidebar);
-    }
-    if (overlay) {
-        overlay.addEventListener('click', closeSidebar);
-    }
 });
