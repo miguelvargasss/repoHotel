@@ -224,10 +224,20 @@
         }
 
         .scrolling-wrapper {
-            display: flex; 
-            flex-wrap: nowrap; 
-            align-items: stretch; 
-            transition: transform 0.5s ease-in-out; 
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            overflow-x: auto; /* <-- : Permite el scroll horizontal */
+            scroll-behavior: smooth; /* <-- : Asegura la animación en todos los navegadores */
+                
+            /* Las siguientes 3 líneas ocultan la barra de scroll */
+            -ms-overflow-style: none;  /* Para Internet Explorer y Edge */
+            scrollbar-width: none;     /* Para Firefox */
+        }
+
+        /* Esta regla adicional oculta la barra de scroll para Chrome, Safari y Opera */
+        .scrolling-wrapper::-webkit-scrollbar {
+            display: none;
         }
 
         .room-card-wrapper {
